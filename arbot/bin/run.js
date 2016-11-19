@@ -7,7 +7,7 @@ const server = http.createServer(service)
 const witToken = 'M7LCV5EBGW6KL4NRGIN2UZM4HPANCPCD'
 const witClient = require('../server/witClient.js')(witToken)
 
-//const token = 'xoxb-105442566833-LKk4XMhpab4An6kYKrbu25gY'
+// const token = 'xoxb-105442566833-LKk4XMhpab4An6kYKrbu25gY'
 const token = 'xoxb-107516744134-KpFOiROw4JLVov6VAJNgnD3I'
 const logLevel = 'verbose'
 
