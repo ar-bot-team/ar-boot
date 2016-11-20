@@ -7,9 +7,9 @@ var stylish = require('jshint-stylish');
 var mocha = require('gulp-mocha');
 
 // Lint Task
-gulp.task('lint', function() {
+gulp.task('lint', function () {
     return gulp.src([
-        './**/bin/*.js', './**/server/**/*.js'
+        './**/bin/*.js', './**/server/**/*.js', './**/test/*.js'
     ])
         .pipe(jshint())
         .pipe(jshint.reporter(stylish))
