@@ -5,3 +5,12 @@ deploy:
   app: ar-bot-heroku
   on:
     repo: rodriquelca/ar-boot
+
+language: node_js
+node_js:
+  - 6
+install:
+  - npm install
+script:
+  - gulp lint
+  - gulp test

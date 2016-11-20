@@ -1,0 +1,26 @@
+{
+  "name": "ar-bot",
+  "version": "1.0.0",
+  "description": "AR-BOT permite interactuar a los usuarios con servicios bancarios en linea desde una web app o usando una plataforma de comunicacion de redes sociales.",
+  "main": "index.js",
+  "scripts": {
+    "test": "gulp lint && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rodriquelca/ar-boot.git"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "bugs": {
+    "url": "https://github.com/rodriquelca/ar-boot/issues"
+  },
+  "homepage": "https://github.com/rodriquelca/ar-boot#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-jshint": "^2.0.4",
+    "gulp-mocha": "^3.0.1",
+    "jshint": "^2.9.4",
+    "jshint-stylish": "^2.2.1"
+  }
+}
