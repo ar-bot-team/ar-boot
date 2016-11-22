@@ -2,6 +2,7 @@
 
 const config = require('config-node')();
 const slackClient = require('../server/slackClient');
+const telegramClient = require('../server/telegramClient');
 const service = require('../server/service');
 const http = require('http');
 const server = http.createServer(service);
@@ -18,6 +19,12 @@ const rtm = slackClient.init(token, logLevel, witClient, serviceRegistry);
 rtm.start();
 
 slackClient.addAuthenticatedHandler(rtm, () => server.listen(3000));
+
+// start for Telegram
+const tokenTelegram = config.telegram.token;
+const rtmTelegram = telegramClient.init(tokenTelegram, witClient, serviceRegistry);
+rtmTelegram.connect();
+// end for Telegram
 
 server.on('listening', function () {
     console.log(`IRIS is listening on ${server.address().port} in ${service.get('env')}`);

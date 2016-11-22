@@ -12,7 +12,7 @@ server.on('listening', function () {
         request.put(`http://127.0.0.1:3000/service/time/${server.address().port}`, (err, res) => {
             if (err) {
                 console.log(err);
-                console.log('Error connecting to Iris');
+                console.log('Error connecting to Arbot');
                 return;
             }
             console.log(res.body);
