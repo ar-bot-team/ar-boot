@@ -135,10 +135,10 @@ const actions = {
     return new Promise(function(resolve, reject) {
       // Here should go the api call, e.g.:
       // context.forecast = apiCall(context.loc)
-      context.forecast = 'adfasdfasdfasdfasdfasdf asdfa sdf';
+      context.forecast = 'prueba Hackaton';
       return resolve(context);
     });
-  } 
+  }
 };
 
 // Setting up our bot
