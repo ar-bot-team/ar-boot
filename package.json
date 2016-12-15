@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/rodriquelca/ar-boot#readme",
   "devDependencies": {
+    "body-parser": "^1.15.2",
     "chai": "^3.5.0",
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.4",
