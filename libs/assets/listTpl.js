@@ -2,7 +2,7 @@ const userList = require('./userList').userList;
 const _ = require('lodash');
 
 ProcessMaker = require('../connectors/processmaker.js')
-config = require('processmaker.json')
+config = require('./processmaker.json')
 
 const UserListTemplate = {
     getList: function (cb) {

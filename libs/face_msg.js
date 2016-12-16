@@ -19,7 +19,7 @@ customTpl['processTpl'] = processTpl.processTpl;
 customTpl['startTpl'] = processTpl.canStartTpl;
 
 var fbMessage = function(id, text, isTpl, tplObj){
-    const  msg = if (isTpl) {
+    if (isTpl) {
         customTpl[tplObj.file](function(res) {
             const body = JSON.stringify({
                 recipient: { id },
