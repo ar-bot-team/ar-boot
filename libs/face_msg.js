@@ -15,13 +15,14 @@ if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
 const customTpl=[] ;
 
 customTpl['listTpl'] = listTpl.getList;
-customTpl['processTpl'] = processTpl.processTpl;
-customTpl['startTpl'] = processTpl.canStartTpl;
+customTpl['processTpl'] = processTpl.getList;
+console.log(customTpl['processTpl']);
 
 var fbMessage = function(id, text, isTpl, tplObj){
     let getList
     if (isTpl) {
         console.log('tpl');
+        console.log(tplObj.file);
         console.log(customTpl);
         console.log(customTpl[tplObj.file])
         getList = customTpl[tplObj.file]
@@ -70,8 +71,8 @@ var fbMessage = function(id, text, isTpl, tplObj){
             return json;
         });
     }
-        
-        
+
+
 };
 
 // to list processes

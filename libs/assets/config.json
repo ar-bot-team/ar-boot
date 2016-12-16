@@ -6,9 +6,5 @@
   {
       "file": "processTpl",
       "message": "I want to see all"
-  },
-  {
-      "file": "startTpl",
-      "message": "show me all the processes"
   }
 ]
