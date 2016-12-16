@@ -6,12 +6,17 @@ config = require('./processmaker.json')
 
 const UserListTemplate = {
     getList: function (cb) {
+        console.log('get list');
         ProcessMaker.connect(config, function(res) {
-            processmaker.getUserList(function(res) {
+            console.log('test call');
+            ProcessMaker.getUserList(function(res) {
+                console.log(res);
                 var elem = [],
                     user,
                     i,
-                    users = res.body.data;
+
+                    users = res.data;
+
                     for (i = 0; i < users.length; i += 1){
                         user = users[i];
                         elem.push({

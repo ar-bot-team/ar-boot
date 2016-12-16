@@ -19,14 +19,23 @@ customTpl['processTpl'] = processTpl.processTpl;
 customTpl['startTpl'] = processTpl.canStartTpl;
 
 var fbMessage = function(id, text, isTpl, tplObj){
+    let getList
     if (isTpl) {
-        customTpl[tplObj.file](function(res) {
+        console.log('tpl');
+        console.log(customTpl);
+        console.log(customTpl[tplObj.file])
+        getList = customTpl[tplObj.file]
+        getList(function(res) {
+            console.log('hi');
+
+            console.log(res);
+            console.log(tplObj);
             const body = JSON.stringify({
                 recipient: { id },
                 message: res,
             });
             const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
-                fetch('https://graph.facebook.com/me/messages?' + qs, {
+                return fetch('https://graph.facebook.com/me/messages?' + qs, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body,
@@ -44,8 +53,9 @@ var fbMessage = function(id, text, isTpl, tplObj){
             recipient: { id },
             message: text,
         });
+    console.log(body);
         const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
-        fetch('https://graph.facebook.com/me/messages?' + qs, {
+        return fetch('https://graph.facebook.com/me/messages?' + qs, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body,
@@ -71,6 +81,7 @@ var fbList = function(id, text, isTpl){
             recipient: { id },
             message: msg,
         });
+
         const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
         return fetch('https://graph.facebook.com/me/messages?' + qs, {
                 method: 'POST',
