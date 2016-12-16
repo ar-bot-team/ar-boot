@@ -36,49 +36,12 @@ const PORT = process.env.PORT || 8445;
 
 // Wit.ai parameters
 const WIT_TOKEN = process.env.WIT_TOKEN;
-
-// Messenger API parameters
-/*
-const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
-if (!FB_PAGE_TOKEN) { throw new Error('missing FB_PAGE_TOKEN') }
-const FB_APP_SECRET = process.env.FB_APP_SECRET;
-if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
-*/
 let FB_VERIFY_TOKEN = 'testbot_verify_token';
 
 
-//crypto.randomBytes(8, (err, buff) => {
-//  if (err) throw err;
-//  FB_VERIFY_TOKEN = buff.toString('hex');
-//
+
   console.log(`/webhook will accept the Verify Token "${FB_VERIFY_TOKEN}"`);
 //});
-
-// ----------------------------------------------------------------------------
-// Messenger API specific code
-
-// See the Send API reference
-// https://developers.facebook.com/docs/messenger-platform/send-api-reference
-
-/*const fbMessage = (id, text) => {
-  const body = JSON.stringify({
-    recipient: { id },
-    message: { text },
-  });
-  const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
-  return fetch('https://graph.facebook.com/me/messages?' + qs, {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body,
-  })
-  .then(rsp => rsp.json())
-  .then(json => {
-    if (json.error && json.error.message) {
-      throw new Error(json.error.message);
-    }
-    return json;
-  });
-};*/
 
 // ----------------------------------------------------------------------------
 // Wit.ai bot specific code
@@ -244,82 +207,7 @@ app.post('/webhook', (req, res) => {
   res.sendStatus(200);
 });
 
-/*
- * Verify that the callback came from Facebook. Using the App Secret from
- * the App Dashboard, we can verify the signature that is sent with each
- * callback in the x-hub-signature field, located in the header.
- *
- * https://developers.facebook.com/docs/graph-api/webhooks#setup
- *
- */
-/*function verifyRequestSignature(req, res, buf) {
-  var signature = req.headers["x-hub-signature"];
 
-  if (!signature) {
-    // For testing, let's log an error. In production, you should throw an
-    // error.
-    console.error("Couldn't validate the signature.");
-  } else {
-    var elements = signature.split('=');
-    var method = elements[0];
-    var signatureHash = elements[1];
-
-    var expectedHash = crypto.createHmac('sha1', FB_APP_SECRET)
-                        .update(buf)
-                        .digest('hex');
-
-    if (signatureHash != expectedHash) {
-      throw new Error("Couldn't validate the request signature.");
-    }
-  }
-}*/
-
-function sendGenericMessage(recipientId) {
-  var messageData = {
-    recipient: {
-      id: recipientId
-    },
-    message: {
-      attachment: {
-        type: "template",
-        payload: {
-          template_type: "generic",
-          elements: [{
-            title: "rift",
-            subtitle: "Next-generation virtual reality",
-            item_url: "https://www.oculus.com/en-us/rift/",
-            image_url: "http://messengerdemo.parseapp.com/img/rift.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/rift/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for first bubble",
-            }],
-          }, {
-            title: "touch",
-            subtitle: "Your Hands, Now in VR",
-            item_url: "https://www.oculus.com/en-us/touch/",
-            image_url: "http://messengerdemo.parseapp.com/img/touch.png",
-            buttons: [{
-              type: "web_url",
-              url: "https://www.oculus.com/en-us/touch/",
-              title: "Open Web URL"
-            }, {
-              type: "postback",
-              title: "Call Postback",
-              payload: "Payload for second bubble",
-            }]
-          }]
-        }
-      }
-    }
-  };
-
-  callSendAPI(messageData);
-}
 
 app.listen(PORT);
 console.log('Listening on :' + PORT + '...');
