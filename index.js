@@ -273,7 +273,11 @@ app.post('/webhook', (req, res) => {
             fb.fbMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
           } else if (text) {
-              tplObj = _.find(config, 'message', text);
+              //tplObj = _.find(config, 'message', text);
+              tplObj = _.find(config, function (o) { return o.message === text});
+              console.log(config);
+              console.log(tplObj);
+              console.log(_.includes(text, tplObj.message));
               if ( _.includes(text, tplObj.message)) {
                   const recipientId = sessions[sessionId].fbid;
 
@@ -281,7 +285,6 @@ app.post('/webhook', (req, res) => {
               }  else {
                   sendMsgToWit(sessionId, text);
               }
-
           }
         } else {
           console.log('received event', JSON.stringify(event));

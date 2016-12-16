@@ -4,7 +4,11 @@
       "message": "show list"
   },
   {
-      "file": "Tpl",
-      "message": "∫"
+      "file": "processTpl",
+      "message": "lista"
+  },
+  {
+      "file": "startTpl",
+      "message": "start process"
   }
 ]

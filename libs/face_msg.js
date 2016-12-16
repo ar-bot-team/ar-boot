@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const crypto = require('crypto');
 const config = require('./assets/config');
 const listTpl = require('./assets/listTpl');
+const processTpl = require('./assets/processTpl');
 
 // Messenger API parameters
 const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
@@ -11,13 +12,14 @@ if (!FB_PAGE_TOKEN) { throw new Error('missing FB_PAGE_TOKEN') }
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
 if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
 
-
 const customTpl=[] ;
 
 customTpl['listTpl'] = listTpl.tpl;
+customTpl['processTpl'] = processTpl.processTpl;
+customTpl['startTpl'] = processTpl.canStartTpl;
 
 var fbMessage = function(id, text, isTpl, tplObj){
-    console.log(customTpl);
+    console.log(customTpl['processTpl']);
 console.log(tplObj);
     const  msg = isTpl ? customTpl[tplObj.file] : { text };
         console.log(msg);
@@ -41,17 +43,9 @@ console.log(tplObj);
     };
 
 // to list processes
-var fbList = function(id, text, content, isTpl){
+var fbList = function(id, text, isTpl){
   console.log('hasta aqui llega');
-    const  msg = isTpl ? {
-        "attachment": {
-            "type": "template",
-            "payload": {
-                "template_type": "generic",
-                "elements": content
-            }
-        }
-    }: { text };
+    const  msg = isTpl ? customProcess: { text };
 
         const body = JSON.stringify({
             recipient: { id },
