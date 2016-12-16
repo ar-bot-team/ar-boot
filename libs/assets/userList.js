@@ -1,22 +1,5 @@
+'use strict';
 const fetch = require('node-fetch');
-
-getUsersFrom = function (){
-    //return fetch('https://graph.facebook.com/me/messages?' + qs, {
-    //        method: 'POST',
-    //        headers: {'Content-Type': 'application/json'},
-    //        body,
-    //    })
-    //        .then(rsp => rsp.json())
-    //    .then(json => {
-    //        if (json.error && json.error.message) {
-    //        throw new Error(json.error.message);
-    //    }
-    //    return json;
-    //});
-
-};
-
-
 exports.userList = {
     "data": [
         {

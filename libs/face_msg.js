@@ -14,33 +14,53 @@ if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
 
 const customTpl=[] ;
 
-customTpl['listTpl'] = listTpl.tpl;
+customTpl['listTpl'] = listTpl.getList;
 customTpl['processTpl'] = processTpl.processTpl;
 customTpl['startTpl'] = processTpl.canStartTpl;
 
 var fbMessage = function(id, text, isTpl, tplObj){
-    console.log(customTpl['processTpl']);
-console.log(tplObj);
-    const  msg = isTpl ? customTpl[tplObj.file] : { text };
-        console.log(msg);
+    if (isTpl) {
+        customTpl[tplObj.file](function(res) {
+            const body = JSON.stringify({
+                recipient: { id },
+                message: res,
+            });
+            const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
+                fetch('https://graph.facebook.com/me/messages?' + qs, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body,
+                })
+                    .then(rsp => rsp.json())
+                    .then(json => {
+                            if (json.error && json.error.message) {
+                            throw new Error(json.error.message);
+                        }
+                        return json;
+                    });
+            })
+    }  else  {
         const body = JSON.stringify({
             recipient: { id },
-            message: msg,
+            message: text,
         });
         const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
-        return fetch('https://graph.facebook.com/me/messages?' + qs, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body,
-            })
-                .then(rsp => rsp.json())
-    .then(json => {
-            if (json.error && json.error.message) {
-            throw new Error(json.error.message);
-        }
-        return json;
-    });
-    };
+        fetch('https://graph.facebook.com/me/messages?' + qs, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body,
+        })
+        .then(rsp => rsp.json())
+        .then(json => {
+                if (json.error && json.error.message) {
+                throw new Error(json.error.message);
+            }
+            return json;
+        });
+    }
+        
+        
+};
 
 // to list processes
 var fbList = function(id, text, isTpl){

@@ -207,19 +207,7 @@ const actions = {
       context.forecast = '{}';
       return resolve(context);
     });
-  },
-  findProcesses({context, entities}) {
-    return new Promise(function(resolve, reject) {
-      // Here should go the api call, e.g.:
-      // context.forecast = apiCall(context.loc)
-
-
-      context.process = '{}';
-      return resolve(context);
-    });
   }
-
-
 };
 
 // Setting up our bot
@@ -281,7 +269,6 @@ app.post('/webhook', (req, res) => {
           } else if (text) {
               //tplObj = _.find(config, 'message', text);
               tplObj = _.find(config, function (o) { return o.message === text});
-              console.log(_.isObject(tplObj));
               if (_.isObject(tplObj) &&_.includes(text, tplObj.message)) {
                   const recipientId = sessions[sessionId].fbid;
 
