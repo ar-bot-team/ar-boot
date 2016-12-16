@@ -200,19 +200,7 @@ const actions = {
       context.forecast = '{}';
       return resolve(context);
     });
-  },
-  findProcesses({context, entities}) {
-    return new Promise(function(resolve, reject) {
-      // Here should go the api call, e.g.:
-      // context.forecast = apiCall(context.loc)
-
-
-      context.process = '{}';
-      return resolve(context);
-    });
   }
-
-
 };
 
 // Setting up our bot
