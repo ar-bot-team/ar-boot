@@ -16,13 +16,13 @@ for (i = 0; i < processes.length; i += 1){
           "subtitle": process.attributes.status,
           "image_url": "https://pbs.twimg.com/profile_images/621332085136064514/vs-n_aGQ.jpg",
           "buttons": [{
-              "type": "web_url",
-              "url": "https://www.messenger.com",
-              "title": "Start Process"
+              "type": "postback",
+              "title": "Start Process",
+              "payload": "Payload for start the process"
           }, {
               "type": "postback",
               "title": "View details",
-              "payload": "Payload for first element in a generic bubble",
+              "payload": "hello Processmaker",
           }],
     });
 }
@@ -40,7 +40,7 @@ for (j = 0; j < startProcesses.length; j += 1) {
       }, {
           "type": "postback",
           "title": "View details",
-          "payload": "Payload for first element in a generic bubble",
+          "payload": canStart.id,
       }],
   });
 }

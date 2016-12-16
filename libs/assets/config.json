@@ -1,14 +1,14 @@
 [
   {
       "file": "listTpl",
-      "message": "show list"
+      "message": "show me the enabled users"
   },
   {
       "file": "processTpl",
-      "message": "show me all"
+      "message": "I want to see all"
   },
   {
       "file": "startTpl",
-      "message": "all can start"
+      "message": "show me all the processes"
   }
 ]
