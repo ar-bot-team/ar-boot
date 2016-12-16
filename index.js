@@ -275,7 +275,6 @@ app.post('/webhook', (req, res) => {
           } else if (text) {
               //tplObj = _.find(config, 'message', text);
               tplObj = _.find(config, function (o) { return o.message === text});
-              console.log(_.isObject(tplObj));
               if (_.isObject(tplObj) &&_.includes(text, tplObj.message)) {
                   const recipientId = sessions[sessionId].fbid;
 

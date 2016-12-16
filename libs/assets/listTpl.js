@@ -5,10 +5,8 @@ var elem = [],
     user,
     i,
     users = _.get(userList, 'data');
-console.log(users);
 for (i = 0; i < users.length; i += 1){
     user = users[i];
-    console.log(user);
     elem.push({
             "title": user.attributes.firstname + ' ' + user.attributes.lastname ,
             "image_url": "https://www.processmaker.com/sites/all/themes/pmthemev2/img/white-badge.png",
@@ -26,7 +24,6 @@ for (i = 0; i < users.length; i += 1){
         });
 }
 
-console.log(userList);
 exports.tpl = {
     "attachment": {
         "type": "template",

@@ -19,10 +19,7 @@ customTpl['processTpl'] = processTpl.processTpl;
 customTpl['startTpl'] = processTpl.canStartTpl;
 
 var fbMessage = function(id, text, isTpl, tplObj){
-    console.log(customTpl['processTpl']);
-console.log(tplObj);
     const  msg = isTpl ? customTpl[tplObj.file] : { text };
-        console.log(msg);
         const body = JSON.stringify({
             recipient: { id },
             message: msg,
@@ -34,13 +31,13 @@ console.log(tplObj);
                 body,
             })
                 .then(rsp => rsp.json())
-    .then(json => {
-            if (json.error && json.error.message) {
-            throw new Error(json.error.message);
-        }
-        return json;
-    });
-    };
+                .then(json => {
+                        if (json.error && json.error.message) {
+                        throw new Error(json.error.message);
+                    }
+                    return json;
+                });
+};
 
 // to list processes
 var fbList = function(id, text, isTpl){
