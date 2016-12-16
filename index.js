@@ -18,6 +18,7 @@ const crypto = require('crypto');
 const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
+const fb = require('./libs/face_msg');
 
 let Wit = null;
 let log = null;
@@ -37,12 +38,14 @@ const PORT = process.env.PORT || 8445;
 const WIT_TOKEN = process.env.WIT_TOKEN;
 
 // Messenger API parameters
+/*
 const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
 if (!FB_PAGE_TOKEN) { throw new Error('missing FB_PAGE_TOKEN') }
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
 if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
-
+*/
 let FB_VERIFY_TOKEN = 'testbot_verify_token';
+
 
 //crypto.randomBytes(8, (err, buff) => {
 //  if (err) throw err;
@@ -57,7 +60,7 @@ let FB_VERIFY_TOKEN = 'testbot_verify_token';
 // See the Send API reference
 // https://developers.facebook.com/docs/messenger-platform/send-api-reference
 
-const fbMessage = (id, text) => {
+/*const fbMessage = (id, text) => {
   const body = JSON.stringify({
     recipient: { id },
     message: { text },
@@ -75,7 +78,7 @@ const fbMessage = (id, text) => {
     }
     return json;
   });
-};
+};*/
 
 // ----------------------------------------------------------------------------
 // Wit.ai bot specific code
@@ -112,7 +115,7 @@ const actions = {
       // Yay, we found our recipient!
       // Let's forward our bot response to her.
       // We return a promise to let our bot know when we're done sending
-      return fbMessage(recipientId, text)
+      return fb.fbMessage(recipientId, text)
       .then(() => null)
       .catch((err) => {
         console.error(
@@ -156,7 +159,7 @@ app.use(({method, url}, rsp, next) => {
   });
   next();
 });
-app.use(bodyParser.json({ verify: verifyRequestSignature }));
+app.use(bodyParser.json({ verify: fb.verifyRequestSignature }));
 
 // Webhook setup
 app.get('/webhook', (req, res) => {
@@ -196,32 +199,41 @@ app.post('/webhook', (req, res) => {
             fbMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
           } else if (text) {
-            // We received a text message
+            if (text === 'template') {
 
-            // Let's forward the message to the Wit.ai Bot Engine
-            // This will run all actions until our bot has nothing left to do
-            wit.runActions(
-              sessionId, // the user's current session
-              text, // the user's message
-              sessions[sessionId].context // the user's current session state
-            ).then((context) => {
-              // Our bot did everything it has to do.
-              // Now it's waiting for further messages to proceed.
-              console.log('Waiting for next user messages');
+              console.log(sessions);
+              const recipientId = sessions[sessionId].fbid;
+              fb.fbMessage(recipientId, text, true);
+            } else {
 
-              // Based on the session state, you might want to reset the session.
-              // This depends heavily on the business logic of your bot.
-              // Example:
-              // if (context['done']) {
-              //   delete sessions[sessionId];
-              // }
+                  // We received a text message
 
-              // Updating the user's current session state
-              sessions[sessionId].context = context;
-            })
-            .catch((err) => {
-              console.error('Oops! Got an error from Wit: ', err.stack || err);
-            })
+                  // Let's forward the message to the Wit.ai Bot Engine
+                  // This will run all actions until our bot has nothing left to do
+                  wit.runActions(
+                      sessionId, // the user's current session
+                      text, // the user's message
+                      sessions[sessionId].context // the user's current session state
+                  ).then((context) => {
+                    // Our bot did everything it has to do.
+                    // Now it's waiting for further messages to proceed.
+                    console.log('Waiting for next user messages');
+
+                  // Based on the session state, you might want to reset the session.
+                  // This depends heavily on the business logic of your bot.
+                  // Example:
+                  // if (context['done']) {
+                  //   delete sessions[sessionId];
+                  // }
+
+                  // Updating the user's current session state
+                  sessions[sessionId].context = context;
+                })
+              .catch((err) => {
+                  console.error('Oops! Got an error from Wit: ', err.stack || err);
+              })
+            }
+
           }
         } else {
           console.log('received event', JSON.stringify(event));
@@ -240,7 +252,7 @@ app.post('/webhook', (req, res) => {
  * https://developers.facebook.com/docs/graph-api/webhooks#setup
  *
  */
-function verifyRequestSignature(req, res, buf) {
+/*function verifyRequestSignature(req, res, buf) {
   var signature = req.headers["x-hub-signature"];
 
   if (!signature) {
@@ -260,7 +272,7 @@ function verifyRequestSignature(req, res, buf) {
       throw new Error("Couldn't validate the request signature.");
     }
   }
-}
+}*/
 
 app.listen(PORT);
 console.log('Listening on :' + PORT + '...');
