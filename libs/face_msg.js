@@ -49,9 +49,11 @@ var fbMessage = function(id, text, isTpl, tplObj){
                     });
             })
     }  else  {
+    console.log('por falso');
+    console.log(text);
         const body = JSON.stringify({
             recipient: { id },
-            message: text,
+            message: {text},
         });
     console.log(body);
         const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
