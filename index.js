@@ -19,6 +19,14 @@ const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
 const fb = require('./libs/face_msg');
+var fs = require("fs");
+const _ = require('lodash')
+// Get content from file
+var contents = fs.readFileSync("libs/assets/config.json");
+// Define to JSON type
+var config = JSON.parse(contents);
+// Get Value from JSON
+
 
 let Wit = null;
 let log = null;
@@ -124,6 +132,7 @@ app.use(({method, url}, rsp, next) => {
 });
 app.use(bodyParser.json({ verify: fb.verifyRequestSignature }));
 
+
 // Webhook setup
 app.get('/webhook', (req, res) => {
   if (req.query['hub.mode'] === 'subscribe' &&
@@ -159,42 +168,15 @@ app.post('/webhook', (req, res) => {
           if (attachments) {
             // We received an attachment
             // Let's reply with an automatic message
-            fbMessage(sender, 'Sorry I can only process text messages for now.')
+            fb.fbMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
           } else if (text) {
-            if (text === 'template') {
 
-              console.log(sessions);
+            if (text === 'template') {
               const recipientId = sessions[sessionId].fbid;
               fb.fbMessage(recipientId, text, true);
             } else {
-
-                  // We received a text message
-
-                  // Let's forward the message to the Wit.ai Bot Engine
-                  // This will run all actions until our bot has nothing left to do
-                  wit.runActions(
-                      sessionId, // the user's current session
-                      text, // the user's message
-                      sessions[sessionId].context // the user's current session state
-                  ).then((context) => {
-                    // Our bot did everything it has to do.
-                    // Now it's waiting for further messages to proceed.
-                    console.log('Waiting for next user messages');
-
-                  // Based on the session state, you might want to reset the session.
-                  // This depends heavily on the business logic of your bot.
-                  // Example:
-                  // if (context['done']) {
-                  //   delete sessions[sessionId];
-                  // }
-
-                  // Updating the user's current session state
-                  sessions[sessionId].context = context;
-                })
-              .catch((err) => {
-                  console.error('Oops! Got an error from Wit: ', err.stack || err);
-              })
+                sendMsgToWit(sessionId, text);
             }
 
           }
@@ -208,6 +190,35 @@ app.post('/webhook', (req, res) => {
 });
 
 
+
+function sendMsgToWit(sessionId, text){
+    // We received a text message
+
+    // Let's forward the message to the Wit.ai Bot Engine
+    // This will run all actions until our bot has nothing left to do
+    wit.runActions(
+        sessionId, // the user's current session
+        text, // the user's message
+        sessions[sessionId].context // the user's current session state
+    ).then((context) => {
+        // Our bot did everything it has to do.
+        // Now it's waiting for further messages to proceed.
+        console.log('Waiting for next user messages');
+
+    // Based on the session state, you might want to reset the session.
+    // This depends heavily on the business logic of your bot.
+    // Example:
+    // if (context['done']) {
+    //   delete sessions[sessionId];
+    // }
+
+    // Updating the user's current session state
+    sessions[sessionId].context = context;
+    })
+    .catch((err) => {
+        console.error('Oops! Got an error from Wit: ', err.stack || err);
+    })
+}
 
 app.listen(PORT);
 console.log('Listening on :' + PORT + '...');
