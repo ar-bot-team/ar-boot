@@ -193,6 +193,13 @@ const actions = {
       return resolve(context);
     });
   },
+  getLogin({context, entities}) {
+    return new Promise(function(resolve, reject) {
+      let message = "sure!!!, now you are connected";
+      context.enableCon = message;
+      return resolve(context);
+    });
+  },
   getForecast({context, entities}) {
     return new Promise(function(resolve, reject) {
       // Here should go the api call, e.g.:
@@ -266,7 +273,6 @@ app.post('/webhook', (req, res) => {
           // We retrieve the message content
           const {text, attachments} = event.message;
 
-
           if (attachments) {
             // We received an attachment
             // Let's reply with an automatic message
@@ -286,6 +292,8 @@ app.post('/webhook', (req, res) => {
           }
         } else {
           console.log('received event', JSON.stringify(event));
+          console.log('llega el post');
+          console.log(event);
         }
       });
     });
