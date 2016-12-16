@@ -46,8 +46,6 @@ const PORT = process.env.PORT || 8445;
 const WIT_TOKEN = process.env.WIT_TOKEN;
 let FB_VERIFY_TOKEN = 'testbot_verify_token';
 
-
-
   console.log(`/webhook will accept the Verify Token "${FB_VERIFY_TOKEN}"`);
 //});
 
@@ -187,6 +185,7 @@ const actions = {
       return resolve(context);
     });
   },
+
   getProcess({context, entities}) {
     return new Promise(function(resolve, reject) {
       let mensaje = "Hi dear Processmaker user what can I do for you?";
@@ -234,6 +233,7 @@ app.get('/webhook', (req, res) => {
 
 // Message handler
 app.post('/webhook', (req, res) => {
+    var tplObj = null;
   // Parse the Messenger payload
   // See the Webhook reference
   // https://developers.facebook.com/docs/messenger-platform/webhook-reference
@@ -254,19 +254,21 @@ app.post('/webhook', (req, res) => {
           // We retrieve the message content
           const {text, attachments} = event.message;
 
+
           if (attachments) {
             // We received an attachment
             // Let's reply with an automatic message
             fb.fbMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
           } else if (text) {
-            if (text === 'template') {
-              const recipientId = sessions[sessionId].fbid;
-              fb.fbMessage(recipientId, text, true);
-            } else {
-                sendMsgToWit(sessionId, text);
-            }
+              tplObj = _.find(config, 'message', text);
+              if ( _.includes(text, tplObj.message)) {
+                  const recipientId = sessions[sessionId].fbid;
 
+                  fb.fbMessage(recipientId, text, true, tplObj);
+              }  else {
+                  sendMsgToWit(sessionId, text);
+              }
 
           }
         } else {

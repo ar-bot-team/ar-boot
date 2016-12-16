@@ -1,10 +1,10 @@
 [
   {
       "file": "listTpl",
-      "message": "Can you show me the list of users?"
+      "message": "show list"
   },
   {
       "file": "Tpl",
-      "message": "Can you show me the presentation?"
+      "message": "∫"
   }
 ]

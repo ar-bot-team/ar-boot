@@ -27,7 +27,7 @@ for (i = 0; i < users.length; i += 1){
 }
 
 console.log(userList);
-exports.listTpl = {
+exports.tpl = {
     "attachment": {
         "type": "template",
         "payload": {

@@ -12,11 +12,15 @@ const FB_APP_SECRET = process.env.FB_APP_SECRET;
 if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
 
 
-const customTpl =listTpl.listTpl;
+const customTpl=[] ;
 
-var fbMessage = function(id, text, isTpl){
-    const  msg = isTpl ? customTpl : { text };
+customTpl['listTpl'] = listTpl.tpl;
 
+var fbMessage = function(id, text, isTpl, tplObj){
+    console.log(customTpl);
+console.log(tplObj);
+    const  msg = isTpl ? customTpl[tplObj.file] : { text };
+        console.log(msg);
         const body = JSON.stringify({
             recipient: { id },
             message: msg,
