@@ -19,6 +19,7 @@ const express = require('express');
 const fetch = require('node-fetch');
 const request = require('request');
 const fb = require('./libs/face_msg');
+const processmaker = require('./libs/connectors/processmaker');
 
 let Wit = null;
 let log = null;
@@ -101,10 +102,22 @@ const actions = {
     return new Promise(function(resolve, reject) {
       // Here should go the api call, e.g.:
       // context.forecast = apiCall(context.loc)
-      context.forecast = 'prueba Hackaton';
+      context.forecast = '{}';
+      return resolve(context);
+    });
+  },
+  findProcesses({context, entities}) {
+    return new Promise(function(resolve, reject) {
+      // Here should go the api call, e.g.:
+      // context.forecast = apiCall(context.loc)
+
+
+      context.process = '{}';
       return resolve(context);
     });
   }
+
+
 };
 
 // Setting up our bot
