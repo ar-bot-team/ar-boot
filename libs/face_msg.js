@@ -1,6 +1,8 @@
 'use strict';
 const fetch = require('node-fetch');
 const crypto = require('crypto');
+const config = require('./assets/config');
+const listTpl = require('./assets/listTpl');
 
 // Messenger API parameters
 const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
@@ -8,30 +10,44 @@ if (!FB_PAGE_TOKEN) { throw new Error('missing FB_PAGE_TOKEN') }
 
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
 if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
-const customTpl = {
-    "attachment":{
-        "type":"template",
-        "payload":{
-            "template_type":"button",
-            "text":"What do you want to do next?",
-            "buttons":[
-                {
-                    "type":"web_url",
-                    "url":"https://petersapparel.parseapp.com",
-                    "title":"Show Website"
-                },
-                {
-                    "type":"postback",
-                    "title":"Start Chatting",
-                    "payload":"USER_DEFINED_PAYLOAD"
-                }
-            ]
-        }
-    }
-};
+
+
+const customTpl =listTpl.listTpl;
 
 var fbMessage = function(id, text, isTpl){
     const  msg = isTpl ? customTpl : { text };
+
+        const body = JSON.stringify({
+            recipient: { id },
+            message: msg,
+        });
+        const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
+        return fetch('https://graph.facebook.com/me/messages?' + qs, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body,
+            })
+                .then(rsp => rsp.json())
+    .then(json => {
+            if (json.error && json.error.message) {
+            throw new Error(json.error.message);
+        }
+        return json;
+    });
+    };
+
+// to list processes
+var fbList = function(id, text, content, isTpl){
+  console.log('hasta aqui llega');
+    const  msg = isTpl ? {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": content
+            }
+        }
+    }: { text };
 
         const body = JSON.stringify({
             recipient: { id },
@@ -83,4 +99,5 @@ var verifyRequestSignature = function (req, res, buf) {
 }
 
 exports.fbMessage = fbMessage;
+exports.fbList = fbList;
 exports.verifyRequestSignature = verifyRequestSignature;
