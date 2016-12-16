@@ -104,7 +104,96 @@ const actions = {
   },
   // You should implement your custom actions here
   // See https://wit.ai/docs/quickstart
-
+  findProcesses({context, entities}) {
+    return new Promise(function(resolve, reject) {
+      let i, max, message = '';
+      let testMessage = {
+        "data": [
+        {
+          "type": "process",
+          "id": "2699d5ac-b3a2-43fe-82ab-4e074cbd53f5",
+          "attributes": {
+            "name": "Proceso Deshawn Miller",
+            "description": null,
+            "created_at": {
+              "date": "2016-12-15 17:33:09.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "updated_at": {
+              "date": "2016-12-15 17:33:09.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "parent_process_id": null,
+            "status": "DISABLED",
+            "type": "SUB_PROCESS",
+            "duration_by": "CALENDAR_DAYS",
+            "assignment": false,
+            "design_access": "PUBLIC",
+            "show_map": false,
+            "show_message": true,
+            "show_delegate": false,
+            "show_dynaform": false,
+            "category_id": "308c68ca-33b7-47d1-8528-094e955afd6e",
+            "sub_category_id": "403e11ba-79b1-46e1-bdf5-6b9c658abec5",
+            "create_user_id": "41b2cac5-5d8d-421e-8ddd-1712bf8b6b92",
+            "debug": true,
+            "dynaform_summary_id": null,
+            "derivation_screen_tpl": null,
+            "calendar_id": "5b9a04a0-1d4c-4d7b-84f4-02860af9496f"
+          }
+        },
+        {
+          "type": "process",
+          "id": "3fe93d3a-7427-4e4a-b0bc-638577e90ddd",
+          "attributes": {
+            "name": "Proceso Miss Adelia Bogisich",
+            "description": null,
+            "created_at": {
+              "date": "2016-12-15 17:33:21.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "updated_at": {
+              "date": "2016-12-15 17:33:21.000000",
+              "timezone_type": 3,
+              "timezone": "UTC"
+            },
+            "parent_process_id": null,
+            "status": "INACTIVE",
+            "type": "SUB_PROCESS",
+            "duration_by": "CALENDAR_DAYS",
+            "assignment": true,
+            "design_access": "PRIVATE",
+            "show_map": false,
+            "show_message": false,
+            "show_delegate": true,
+            "show_dynaform": true,
+            "category_id": "69e24bc5-60ff-48fd-a1a9-d730d4eca036",
+            "sub_category_id": "cbff5d47-ab62-4bac-a64a-b0b0597df289",
+            "create_user_id": "c7cf9b9c-97f4-4f65-86e3-09af9988c904",
+            "debug": false,
+            "dynaform_summary_id": null,
+            "derivation_screen_tpl": null,
+            "calendar_id": "bd3e7b45-653b-408c-b17b-6e3aa9c6b361"
+          }
+        } ]};
+        for (i = 0, max = testMessage.data.length; i < max; i += 1) {
+          message += testMessage.data[i].attributes.name + ' - ';
+        }
+        //context.process = (entities.view[0].value === 'view') ? message.substring(0, message.length - 3) : 'do you want to list it?';
+      context.process = message.substring(0, message.length - 3);
+      return resolve(context);
+    });
+  },
+  getProcess({context, entities}) {
+    return new Promise(function(resolve, reject) {
+      let mensaje = "Hi dear Processmaker user what can I do for you?";
+      context.sayHello = mensaje;
+      return resolve(context);
+    });
+  },
   getForecast({context, entities}) {
     return new Promise(function(resolve, reject) {
       // Here should go the api call, e.g.:
@@ -171,13 +260,13 @@ app.post('/webhook', (req, res) => {
             fb.fbMessage(sender, 'Sorry I can only process text messages for now.')
             .catch(console.error);
           } else if (text) {
-
             if (text === 'template') {
               const recipientId = sessions[sessionId].fbid;
               fb.fbMessage(recipientId, text, true);
             } else {
                 sendMsgToWit(sessionId, text);
             }
+
 
           }
         } else {
@@ -222,3 +311,99 @@ function sendMsgToWit(sessionId, text){
 
 app.listen(PORT);
 console.log('Listening on :' + PORT + '...');
+
+function setProcessToList() {
+  let i, max, message = '';
+  let arrayText = [], description,
+  testMessage = {
+    "data": [
+    {
+      "type": "process",
+      "id": "2699d5ac-b3a2-43fe-82ab-4e074cbd53f5",
+      "attributes": {
+        "name": "Proceso Deshawn Miller",
+        "description": null,
+        "created_at": {
+          "date": "2016-12-15 17:33:09.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "updated_at": {
+          "date": "2016-12-15 17:33:09.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "parent_process_id": null,
+        "status": "DISABLED",
+        "type": "SUB_PROCESS",
+        "duration_by": "CALENDAR_DAYS",
+        "assignment": false,
+        "design_access": "PUBLIC",
+        "show_map": false,
+        "show_message": true,
+        "show_delegate": false,
+        "show_dynaform": false,
+        "category_id": "308c68ca-33b7-47d1-8528-094e955afd6e",
+        "sub_category_id": "403e11ba-79b1-46e1-bdf5-6b9c658abec5",
+        "create_user_id": "41b2cac5-5d8d-421e-8ddd-1712bf8b6b92",
+        "debug": true,
+        "dynaform_summary_id": null,
+        "derivation_screen_tpl": null,
+        "calendar_id": "5b9a04a0-1d4c-4d7b-84f4-02860af9496f"
+      }
+    },
+    {
+      "type": "process",
+      "id": "3fe93d3a-7427-4e4a-b0bc-638577e90ddd",
+      "attributes": {
+        "name": "Proceso Miss Adelia Bogisich",
+        "description": null,
+        "created_at": {
+          "date": "2016-12-15 17:33:21.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "updated_at": {
+          "date": "2016-12-15 17:33:21.000000",
+          "timezone_type": 3,
+          "timezone": "UTC"
+        },
+        "parent_process_id": null,
+        "status": "INACTIVE",
+        "type": "SUB_PROCESS",
+        "duration_by": "CALENDAR_DAYS",
+        "assignment": true,
+        "design_access": "PRIVATE",
+        "show_map": false,
+        "show_message": false,
+        "show_delegate": true,
+        "show_dynaform": true,
+        "category_id": "69e24bc5-60ff-48fd-a1a9-d730d4eca036",
+        "sub_category_id": "cbff5d47-ab62-4bac-a64a-b0b0597df289",
+        "create_user_id": "c7cf9b9c-97f4-4f65-86e3-09af9988c904",
+        "debug": false,
+        "dynaform_summary_id": null,
+        "derivation_screen_tpl": null,
+        "calendar_id": "bd3e7b45-653b-408c-b17b-6e3aa9c6b361"
+      }
+    } ]};
+    for (i = 0, max = testMessage.data.length; i < max; i += 1) {
+      description = (testMessage.data[i].attributes.description === null) ? 'Created by Processmaker' : testMessage.data[i].attributes.description;
+      arrayText.push({
+            "title": testMessage.data[i].attributes.name,
+            "subtitle": description,
+            "image_url": "https://pbs.twimg.com/profile_images/621332085136064514/vs-n_aGQ.jpg",
+            "buttons": [{
+                "type": "web_url",
+                "url": "https://www.messenger.com",
+                "title": "Start Process"
+            }, {
+                "type": "postback",
+                "title": "View details",
+                "payload": "Payload for first element in a generic bubble",
+            }],
+      });
+      message += testMessage.data[i].attributes.name + ' - ';
+    }
+    return arrayText;
+}

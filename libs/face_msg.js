@@ -36,6 +36,38 @@ var fbMessage = function(id, text, isTpl){
     });
     };
 
+// to list processes
+var fbList = function(id, text, content, isTpl){
+  console.log('hasta aqui llega');
+    const  msg = isTpl ? {
+        "attachment": {
+            "type": "template",
+            "payload": {
+                "template_type": "generic",
+                "elements": content
+            }
+        }
+    }: { text };
+
+        const body = JSON.stringify({
+            recipient: { id },
+            message: msg,
+        });
+        const qs = 'access_token=' + encodeURIComponent(FB_PAGE_TOKEN);
+        return fetch('https://graph.facebook.com/me/messages?' + qs, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body,
+            })
+                .then(rsp => rsp.json())
+    .then(json => {
+            if (json.error && json.error.message) {
+            throw new Error(json.error.message);
+        }
+        return json;
+    });
+    };
+
 /*
  * Verify that the callback came from Facebook. Using the App Secret from
  * the App Dashboard, we can verify the signature that is sent with each
@@ -67,4 +99,5 @@ var verifyRequestSignature = function (req, res, buf) {
 }
 
 exports.fbMessage = fbMessage;
+exports.fbList = fbList;
 exports.verifyRequestSignature = verifyRequestSignature;
