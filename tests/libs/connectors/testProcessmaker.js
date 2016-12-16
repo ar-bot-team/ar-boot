@@ -4,21 +4,15 @@ var should = chai.should();
 
 describe('Blobs', function() {
     let config = {
-        PM_URL : 'localhost:8080',
-        PM_CLIENT_ID : '5',
-        PM_CLIENT_SECRET : 'mfmAu5BDibnCqs9CurkycwN59bWDx8FYmJ2I2jAv',
-        PM_USERNAME :'test',
-        PM_PASSWORD :'test'
-    }
+    "PM_URL" : "54.80.253.90:8082",
+    "PM_CLIENT_ID" : "2",
+    "PM_CLIENT_SECRET" : "eGVLVooooza3sc4tGmhXgKmLcYntG4pA1azq77wu",
+    "PM_USERNAME" : "ronald.otn@gmail.com",
+    "PM_PASSWORD" : "123456"
+}
     
     it('should retrieve access token', function(done) {
-        let config = {
-            PM_URL : 'localhost:8080',
-            PM_CLIENT_ID : '5',
-            PM_CLIENT_SECRET : 'mfmAu5BDibnCqs9CurkycwN59bWDx8FYmJ2I2jAv',
-            PM_USERNAME :'test',
-            PM_PASSWORD :'test'
-        }
+        
 
         processmaker.connect(config, function(res) {
             processmaker.access_token.should.be.equal(res)
@@ -27,13 +21,7 @@ describe('Blobs', function() {
     })
 
     it('should retrieve process list', function(done) {
-        let config = {
-            PM_URL : 'localhost:8080',
-            PM_CLIENT_ID : '5',
-            PM_CLIENT_SECRET : 'mfmAu5BDibnCqs9CurkycwN59bWDx8FYmJ2I2jAv',
-            PM_USERNAME :'test',
-            PM_PASSWORD :'test'
-        }
+        
 
         processmaker.connect(config, function(res) {
             processmaker.getProcessList(function(res) {
@@ -45,13 +33,7 @@ describe('Blobs', function() {
     })
 
     it('should retrieve users list', function(done) {
-        let config = {
-            PM_URL : 'localhost:8080',
-            PM_CLIENT_ID : '5',
-            PM_CLIENT_SECRET : 'mfmAu5BDibnCqs9CurkycwN59bWDx8FYmJ2I2jAv',
-            PM_USERNAME :'test',
-            PM_PASSWORD :'test'
-        }
+   
 
         processmaker.connect(config, function(res) {
             processmaker.getUserList(function(res) {
