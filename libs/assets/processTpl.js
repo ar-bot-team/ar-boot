@@ -31,7 +31,7 @@ for (j = 0; j < startProcesses.length; j += 1) {
   canStart = startProcesses[j];
   elem2.push({
       "title": canStart.process.name,
-      "subtitle": canStart.process.task,
+      "subtitle": canStart.task.name,
       "image_url": "https://pbs.twimg.com/profile_images/621332085136064514/vs-n_aGQ.jpg",
       "buttons": [{
           "type": "postback",

@@ -5,10 +5,10 @@
   },
   {
       "file": "processTpl",
-      "message": "lista"
+      "message": "show me all"
   },
   {
       "file": "startTpl",
-      "message": "start process"
+      "message": "all can start"
   }
 ]
