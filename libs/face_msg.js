@@ -1,36 +1,37 @@
 'use strict';
 const fetch = require('node-fetch');
 const crypto = require('crypto');
+
 // Messenger API parameters
 const FB_PAGE_TOKEN = process.env.FB_PAGE_TOKEN;
 if (!FB_PAGE_TOKEN) { throw new Error('missing FB_PAGE_TOKEN') }
 
 const FB_APP_SECRET = process.env.FB_APP_SECRET;
 if (!FB_APP_SECRET) { throw new Error('missing FB_APP_SECRET') }
-
+const customTpl = {
+    "attachment":{
+        "type":"template",
+        "payload":{
+            "template_type":"button",
+            "text":"What do you want to do next?",
+            "buttons":[
+                {
+                    "type":"web_url",
+                    "url":"https://petersapparel.parseapp.com",
+                    "title":"Show Website"
+                },
+                {
+                    "type":"postback",
+                    "title":"Start Chatting",
+                    "payload":"USER_DEFINED_PAYLOAD"
+                }
+            ]
+        }
+    }
+};
 
 var fbMessage = function(id, text, isTpl){
-    const  msg = isTpl ? {
-            "attachment":{
-                "type":"template",
-                "payload":{
-                    "template_type":"button",
-                    "text":"What do you want to do next?",
-                    "buttons":[
-                        {
-                            "type":"web_url",
-                            "url":"https://petersapparel.parseapp.com",
-                            "title":"Show Website"
-                        },
-                        {
-                            "type":"postback",
-                            "title":"Start Chatting",
-                            "payload":"USER_DEFINED_PAYLOAD"
-                        }
-                    ]
-                }
-            }
-        } : { text };
+    const  msg = isTpl ? customTpl : { text };
 
         const body = JSON.stringify({
             recipient: { id },
